@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="56" viewBox="0 0 320 56" fill="none">
+  <!-- Isometric cube icon -->
+  <g transform="translate(22, 27) scale(0.16)">
+    <!-- Front face outline -->
+    <path d="M-140,-155 L140,-175 L160,95 L-120,115 Z"
+          stroke="#111111" stroke-width="18" stroke-linejoin="round" fill="none"/>
+    <!-- Grid vertical divider -->
+    <line x1="0" y1="-165" x2="20" y2="105" stroke="#111111" stroke-width="14"/>
+    <!-- Grid horizontal divider -->
+    <line x1="-130" y1="-20" x2="150" y2="-40" stroke="#111111" stroke-width="14"/>
+    <!-- Circuit traces -->
+    <path d="M0,-100 L-50,-97 L-50,-65" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
+    <path d="M80,-65 L80,-35" stroke="#111111" stroke-width="10" stroke-linecap="square"/>
+    <path d="M-60,15 L-60,50" stroke="#111111" stroke-width="10" stroke-linecap="square"/>
+    <path d="M20,55 L70,52 L70,25" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
+    <!-- 3D depth faces -->
+    <path d="M-120,115 L160,95 L148,155 L-132,175 Z" fill="#111111"/>
+    <path d="M-140,-155 L-120,115 L-132,175 L-152,-95 Z" fill="#111111"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="54" y="37" font-family="'DM Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif"
+        font-weight="800" font-size="28" fill="#111111" letter-spacing="0.06em">TENUQ</text>
+</svg>

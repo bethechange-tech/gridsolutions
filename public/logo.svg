@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#111111"/>
+
+  <g transform="translate(256, 240)">
+    <!-- Front face outline (rotated square with grid) -->
+    <path d="M-140,-155 L140,-175 L160,95 L-120,115 Z"
+          stroke="white" stroke-width="16" stroke-linejoin="round" fill="none"/>
+
+    <!-- Grid vertical divider -->
+    <line x1="0" y1="-165" x2="20" y2="105" stroke="white" stroke-width="12"/>
+    <!-- Grid horizontal divider -->
+    <line x1="-130" y1="-20" x2="150" y2="-40" stroke="white" stroke-width="12"/>
+
+    <!-- Circuit traces -->
+    <!-- Top-left quadrant: horizontal branch + turn down -->
+    <path d="M0,-100 L-50,-97 L-50,-65" stroke="white" stroke-width="9" stroke-linecap="square" fill="none"/>
+    <!-- Top-right quadrant: vertical stub down -->
+    <path d="M80,-65 L80,-35" stroke="white" stroke-width="9" stroke-linecap="square"/>
+    <!-- Bottom-left quadrant: vertical stub down -->
+    <path d="M-60,15 L-60,50" stroke="white" stroke-width="9" stroke-linecap="square"/>
+    <!-- Bottom-right quadrant: horizontal branch + turn up -->
+    <path d="M20,55 L70,52 L70,25" stroke="white" stroke-width="9" stroke-linecap="square" fill="none"/>
+
+    <!-- 3D depth — bottom face -->
+    <path d="M-120,115 L160,95 L148,155 L-132,175 Z" fill="white"/>
+    <!-- 3D depth — left face -->
+    <path d="M-140,-155 L-120,115 L-132,175 L-152,-95 Z" fill="white"/>
+  </g>
+</svg>
