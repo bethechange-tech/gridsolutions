@@ -168,7 +168,7 @@ export default function BlogPage() {
         </h1>
         <p className="text-gray-500 text-base sm:text-lg max-w-xl">
           Expert perspectives on cloud, security, analytics, and modern
-          engineering — straight from the Tenuq team.
+          engineering — straight from the TENUQ team.
         </p>
       </div>
 

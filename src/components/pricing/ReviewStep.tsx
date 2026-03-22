@@ -20,7 +20,6 @@ export default function ReviewStep() {
   const contactInfo = useOrderStore((s) => s.contactInfo);
   const setContactInfo = useOrderStore((s) => s.setContactInfo);
   const setStep = useOrderStore((s) => s.setStep);
-  const setTransactionId = useOrderStore((s) => s.setTransactionId);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -30,13 +29,12 @@ export default function ReviewStep() {
 
   const [payState, payAction, isPaying] = useActionState(processPaymentAction, initialPayState);
 
-  // Handle successful payment result
+  // Handle successful checkout session — redirect to Stripe
   useEffect(() => {
-    if (payState.success && payState.data?.transactionId) {
-      setTransactionId(payState.data.transactionId);
-      setStep("confirmation");
+    if (payState.success && payState.data?.sessionUrl) {
+      window.location.href = payState.data.sessionUrl;
     }
-  }, [payState, setTransactionId, setStep]);
+  }, [payState]);
 
   useEffect(() => {
     const load = async () => {
@@ -255,18 +253,25 @@ export default function ReviewStep() {
             <span className="text-3xl font-extrabold text-[#1a8d1a]">£{summary.totalPrice.toFixed(2)}</span>
           </div>
 
+          {/* Server error */}
+          {payState.message && !payState.success && (
+            <div className="mt-3 p-3 rounded-xl bg-red-50 border border-red-100 text-sm text-red-600 text-center">
+              {payState.message}
+            </div>
+          )}
+
           {/* Pay button */}
           <form action={handleFormAction}>
             <input type="hidden" name="payload" value={buildPayload()} />
             <button
               type="submit"
-              disabled={isPaying}
+              disabled={isPaying || (payState.success && !!payState.data?.sessionUrl)}
               className="w-full mt-4 py-4 rounded-full bg-[#1a8d1a] text-white text-sm font-bold hover:bg-[#157a15] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-[#1a8d1a]/20 flex items-center justify-center gap-2.5"
             >
-              {isPaying ? (
+              {isPaying || (payState.success && payState.data?.sessionUrl) ? (
                 <>
                   <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Processing payment…
+                  {payState.success ? "Redirecting to Stripe…" : "Creating checkout…"}
                 </>
               ) : (
                 <>
@@ -274,7 +279,7 @@ export default function ReviewStep() {
                     <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
                     <line x1="1" y1="10" x2="23" y2="10"/>
                   </svg>
-                  Pay £{summary.totalPrice.toFixed(2)}
+                  Checkout — £{summary.totalPrice.toFixed(2)}
                 </>
               )}
             </button>
@@ -292,7 +297,10 @@ export default function ReviewStep() {
               Secure Payment
             </span>
             <span className="w-0.5 h-3 bg-gray-200 rounded-full" />
-            <span>Mock Gateway</span>
+            <span className="flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 12l2 2 4-4"/></svg>
+              Powered by Stripe
+            </span>
           </div>
         </div>
       </div>

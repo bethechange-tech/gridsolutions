@@ -12,7 +12,7 @@ const client = new MailtrapClient({ token: TOKEN });
 
 const sender = {
   email: "hello@tenuq.com",
-  name: "Tenuq",
+  name: "TENUQ",
 };
 
 const ADMIN_EMAIL = "rasulomeni@gmail.com";
@@ -33,7 +33,7 @@ export async function sendContactEmail(data: ContactEmailData) {
   await client.send({
     from: sender,
     to: [{ email: ADMIN_EMAIL }],
-    subject: `[Tenuq Contact] ${data.subject} — ${data.name}`,
+    subject: `[TENUQ Contact] ${data.subject} — ${data.name}`,
     html: `
       <div style="font-family: 'Inter', -apple-system, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: #111; padding: 24px 32px; border-radius: 12px 12px 0 0;">
@@ -72,7 +72,7 @@ export async function sendContactEmail(data: ContactEmailData) {
   await client.send({
     from: sender,
     to: [{ email: data.email }],
-    subject: `We received your message — Tenuq`,
+    subject: `We received your message — TENUQ`,
     html: `
       <div style="font-family: 'Inter', -apple-system, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: #111; padding: 24px 32px; border-radius: 12px 12px 0 0;">
@@ -86,10 +86,10 @@ export async function sendContactEmail(data: ContactEmailData) {
             In the meantime, feel free to explore our services or check the status of an existing order.
           </p>
           <a href="https://tenuq.com" style="display: inline-block; background: #1a8d1a; color: #fff; padding: 12px 28px; border-radius: 999px; font-size: 14px; font-weight: 600; text-decoration: none;">
-            Visit Tenuq
+            Visit TENUQ
           </a>
           <p style="font-size: 12px; color: #9ca3af; margin: 24px 0 0;">
-            — The Tenuq Team
+            — The TENUQ Team
           </p>
         </div>
       </div>
@@ -182,7 +182,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
           </a>
           <p style="font-size: 12px; color: #9ca3af; margin: 24px 0 0;">
             Ordered on ${formattedDate} — ${data.currency}<br/>
-            — The Tenuq Team
+            — The TENUQ Team
           </p>
         </div>
       </div>
@@ -194,7 +194,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
   await client.send({
     from: sender,
     to: [{ email: ADMIN_EMAIL }],
-    subject: `[Tenuq Order] ${data.transactionId} — ${formattedPrice} — ${data.productName}`,
+    subject: `[TENUQ Order] ${data.transactionId} — ${formattedPrice} — ${data.productName}`,
     html: `
       <div style="font-family: 'Inter', -apple-system, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: #1a8d1a; padding: 24px 32px; border-radius: 12px 12px 0 0;">

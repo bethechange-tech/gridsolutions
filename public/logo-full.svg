@@ -1,24 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="320" height="56" viewBox="0 0 320 56" fill="none">
   <!-- Isometric cube icon -->
   <g transform="translate(22, 27) scale(0.16)">
-    <!-- Front face outline -->
-    <path d="M-140,-155 L140,-175 L160,95 L-120,115 Z"
-          stroke="#111111" stroke-width="18" stroke-linejoin="round" fill="none"/>
+    <!-- Top face (circuit board) -->
+    <path d="M-130,-160 L130,-180 L155,85 L-105,105 Z"
+          stroke="#111111" stroke-width="16" stroke-linejoin="round" fill="none"/>
     <!-- Grid vertical divider -->
-    <line x1="0" y1="-165" x2="20" y2="105" stroke="#111111" stroke-width="14"/>
+    <line x1="12" y1="-170" x2="25" y2="95" stroke="#111111" stroke-width="12"/>
     <!-- Grid horizontal divider -->
-    <line x1="-130" y1="-20" x2="150" y2="-40" stroke="#111111" stroke-width="14"/>
-    <!-- Circuit traces -->
-    <path d="M0,-100 L-50,-97 L-50,-65" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
-    <path d="M80,-65 L80,-35" stroke="#111111" stroke-width="10" stroke-linecap="square"/>
-    <path d="M-60,15 L-60,50" stroke="#111111" stroke-width="10" stroke-linecap="square"/>
-    <path d="M20,55 L70,52 L70,25" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
+    <line x1="-118" y1="-28" x2="143" y2="-48" stroke="#111111" stroke-width="12"/>
+    <!-- Circuit traces — top-left: T-connector -->
+    <path d="M-85,-95 L-45,-97" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
+    <path d="M-65,-97 L-65,-62" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
+    <!-- Circuit traces — top-right: L-connector -->
+    <path d="M85,-115 L85,-72" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
+    <path d="M85,-72 L55,-70" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
+    <!-- Circuit traces — bottom-left: stub -->
+    <path d="M-70,8 L-70,52" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
+    <path d="M-70,30 L-38,28" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
+    <!-- Circuit traces — bottom-right: T-connector -->
+    <path d="M65,20 L65,62" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
+    <path d="M45,42 L90,38" stroke="#111111" stroke-width="10" stroke-linecap="square" fill="none"/>
     <!-- 3D depth faces -->
-    <path d="M-120,115 L160,95 L148,155 L-132,175 Z" fill="#111111"/>
-    <path d="M-140,-155 L-120,115 L-132,175 L-152,-95 Z" fill="#111111"/>
+    <path d="M-105,105 L155,85 L142,150 L-118,170 Z" fill="#111111"/>
+    <path d="M-130,-160 L-105,105 L-118,170 L-143,-95 Z" fill="#111111"/>
   </g>
 
-  <!-- Wordmark -->
+  <!-- Wordmark: TENU -->
   <text x="54" y="37" font-family="'DM Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif"
-        font-weight="800" font-size="28" fill="#111111" letter-spacing="0.06em">TENUQ</text>
+        font-weight="800" font-size="28" fill="#111111" letter-spacing="0.06em">TENU</text>
+
+  <!-- Custom Q with distinctive tail/swoosh -->
+  <g transform="translate(170, 12)">
+    <!-- Q body (circular) -->
+    <path d="M16,2 C8,2 2,8.5 2,17 C2,25.5 8,32 16,32 C24,32 30,25.5 30,17 C30,8.5 24,2 16,2 Z M16,7 C21,7 25,11.5 25,17 C25,22.5 21,27 16,27 C11,27 7,22.5 7,17 C7,11.5 11,7 16,7 Z" fill="#111111"/>
+    <!-- Distinctive swoosh tail extending right -->
+    <path d="M22,24 Q28,32 38,28 Q42,26 40,22" stroke="#111111" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  </g>
 </svg>

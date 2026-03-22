@@ -50,7 +50,7 @@ export const productSchema = z.object({
   name: z.string(),
   subtitle: z.string(),
   description: z.string(),
-  category: z.enum(["all", "consulting", "development", "support"]),
+  category: z.enum(["all", "consulting", "branding"]),
   basePrice: z.number(),
   consultationPrice: z.number(),
   currency: z.string(),

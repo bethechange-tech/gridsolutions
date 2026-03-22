@@ -23,18 +23,22 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2.5 font-bold text-lg tracking-tight group">
           <span className="w-7 h-7 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
             <svg width="22" height="24" viewBox="0 0 40 44" fill="none" className="text-gray-900 group-hover:text-[#1a8d1a] transition-colors duration-300">
-              <path d="M5 5 L33 2 L36 30 L8 33 Z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" fill="none"/>
-              <line x1="19" y1="3.5" x2="22" y2="31.5" stroke="currentColor" strokeWidth="2"/>
-              <line x1="6.5" y1="19" x2="34.5" y2="16" stroke="currentColor" strokeWidth="2"/>
-              <path d="M19 11 L15 11.2 L15 14.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
-              <path d="M28 16.5 L28 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
-              <path d="M12 19.8 L12 23" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
-              <path d="M22 24 L26 23.8 L26 21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
-              <path d="M8 33 L36 30 L35 37 L7 40 Z" fill="currentColor"/>
-              <path d="M5 5 L8 33 L7 40 L4 12 Z" fill="currentColor"/>
+              <path d="M5 4 L33 2 L35 31 L7 33 Z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" fill="none"/>
+              <line x1="19" y1="3" x2="21" y2="32" stroke="currentColor" strokeWidth="2"/>
+              <line x1="6" y1="18" x2="34" y2="16" stroke="currentColor" strokeWidth="2"/>
+              <path d="M11 10 L16 9.8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
+              <path d="M13.5 9.9 L13.5 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
+              <path d="M27 7 L27 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
+              <path d="M27 11 L24 11.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
+              <path d="M12 20 L12 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
+              <path d="M12 22 L15 21.8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
+              <path d="M26 21 L26 25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
+              <path d="M24 23 L29 22.8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" fill="none"/>
+              <path d="M7 33 L35 31 L34 37 L6 39 Z" fill="currentColor"/>
+              <path d="M5 4 L7 33 L6 39 L4 10 Z" fill="currentColor"/>
             </svg>
           </span>
-          Tenuq
+          TENUQ
         </Link>
 
         {/* Nav Links - Desktop */}

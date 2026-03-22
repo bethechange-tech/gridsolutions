@@ -8,7 +8,7 @@
 "use server";
 
 import { contactSchema, paymentPayloadSchema } from "@/lib/validators";
-import { sendContactEmail, sendOrderConfirmationEmail } from "@/lib/mailtrap";
+import { appEvents } from "@/lib/events";
 import { z } from "zod";
 import { MOCK_TRANSACTIONS as transactions } from "@/data/transactions";
 
@@ -47,7 +47,7 @@ export async function submitContactForm(
     }
 
     try {
-        await sendContactEmail({
+        appEvents.emit("contact.submitted", {
             name: result.data.name,
             email: result.data.email,
             phone: result.data.phone || "",
@@ -129,10 +129,10 @@ export async function lookupTransactionAction(
     return { success: true, data: txn };
 }
 
-/* ─── Payment Processing ──────────────────── */
+/* ─── Payment Processing (Stripe Checkout) ── */
 
 export type PaymentActionResult = ActionState<{
-    transactionId: string;
+    sessionUrl: string;
 }>;
 
 export async function processPaymentAction(
@@ -162,51 +162,72 @@ export async function processPaymentAction(
     const payload = result.data;
 
     // Console logging
-    console.group("🧾 Payment Processed");
+    console.group("🧾 Creating Stripe Checkout Session");
     console.table({
         "Order ID": payload.orderId,
         "Customer Name": payload.contact.name,
         "Customer Email": payload.contact.email,
-        "Customer Phone": payload.contact.phone,
         "Order Type": payload.config.orderType,
         Product: payload.product.name,
-        Quantity: payload.config.quantity,
-        Quality: payload.config.quality,
-        Turnaround: payload.config.turnaround,
-        "Word Count": payload.config.wordCount,
-        Images: payload.config.images,
-        "Base Total": `£${payload.summary.baseTotal}`,
-        "Quality Multiplier": `×${payload.summary.qualityMultiplier}`,
-        "Turnaround Surcharge": `£${payload.summary.turnaroundSurcharge}`,
         "Total Price": `£${payload.summary.totalPrice}`,
-        "Delivery (days)": payload.summary.deliveryDays,
-        Timestamp: payload.timestamp,
     });
     console.groupEnd();
 
-    const transactionId = `TXN-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+    try {
+        // Import stripe server-side only
+        const { stripe } = await import("@/lib/stripe");
 
-    // Send order confirmation emails (non-blocking)
-    sendOrderConfirmationEmail({
-        orderId: payload.orderId,
-        transactionId,
-        customerName: payload.contact.name,
-        customerEmail: payload.contact.email,
-        customerPhone: payload.contact.phone,
-        productName: payload.product.name,
-        orderType: payload.config.orderType,
-        quantity: payload.config.quantity,
-        quality: payload.config.quality,
-        turnaround: payload.config.turnaround,
-        totalPrice: payload.summary.totalPrice,
-        currency: payload.summary.currency,
-        deliveryDays: payload.summary.deliveryDays,
-        timestamp: payload.timestamp,
-    }).catch((err) => console.error("Order email error:", err));
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-    return {
-        success: true,
-        data: { transactionId },
-        message: "Payment processed successfully",
-    };
+        const session = await stripe.checkout.sessions.create({
+            mode: payload.config.orderType === "subscription" ? "subscription" : "payment",
+            customer_email: payload.contact.email,
+            line_items: [
+                {
+                    price_data: {
+                        currency: payload.summary.currency.toLowerCase(),
+                        product_data: {
+                            name: payload.product.name,
+                            description: `${payload.product.subtitle} — ${payload.config.orderType === "consultation" ? "One-off consultation" : `${payload.config.quality} tier, ${payload.config.turnaround} turnaround`}`,
+                        },
+                        ...(payload.config.orderType === "subscription"
+                            ? {
+                                unit_amount: Math.round(payload.summary.totalPrice * 100),
+                                recurring: { interval: "month" as const },
+                            }
+                            : {
+                                unit_amount: Math.round(payload.summary.totalPrice * 100),
+                            }),
+                    },
+                    quantity: 1,
+                },
+            ],
+            metadata: {
+                orderId: payload.orderId,
+                customerName: payload.contact.name,
+                customerPhone: payload.contact.phone,
+                productName: payload.product.name,
+                orderType: payload.config.orderType,
+                quality: payload.config.quality,
+                turnaround: payload.config.turnaround,
+                quantity: payload.config.quantity.toString(),
+                deliveryDays: payload.summary.deliveryDays.toString(),
+                totalPrice: payload.summary.totalPrice.toString(),
+            },
+            success_url: `${appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${appUrl}/pricing`,
+        });
+
+        return {
+            success: true,
+            data: { sessionUrl: session.url! },
+            message: "Redirecting to Stripe Checkout…",
+        };
+    } catch (err) {
+        console.error("Stripe checkout error:", err);
+        return {
+            success: false,
+            message: "Failed to create checkout session. Please try again.",
+        };
+    }
 }
