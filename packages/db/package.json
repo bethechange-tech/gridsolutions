@@ -1,0 +1,35 @@
+{
+  "name": "@repo/db",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "pnpm build:prisma && tsup --clean",
+    "check-types": "tsc --noEmit",
+    "dev": "tsup --watch",
+    "lint": "eslint .",
+    "build:prisma": "prisma generate",
+    "migrate": "prisma migrate",
+    "push": "prisma db push",
+    "seed": "tsx prisma/seed.ts"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "prisma": "^7.5.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.5.0",
+    "@prisma/client": "^7.5.0",
+    "dotenv": "^17.3.1",
+    "nanoid": "^5.1.7"
+  }
+}

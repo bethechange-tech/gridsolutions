@@ -1,0 +1,185 @@
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+// ── Products ──────────────────────────────────────────────
+
+model Product {
+  id                String   @id @db.VarChar(64)
+  name              String   @db.VarChar(120)
+  subtitle          String   @db.VarChar(200)
+  description       String
+  category          String   @db.VarChar(32) // "consulting" | "branding"
+  basePrice         Int      @map("base_price")
+  consultationPrice Int      @map("consultation_price")
+  currency          String   @default("GBP") @db.VarChar(8)
+  billingCycle      String   @default("mo") @map("billing_cycle") @db.VarChar(4)
+  features          String[] // text array
+  popular           Boolean  @default(false)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  orders Order[]
+
+  @@map("products")
+}
+
+// ── Orders ────────────────────────────────────────────────
+
+model Order {
+  id             String   @id @db.VarChar(32)
+  productId      String   @map("product_id") @db.VarChar(64)
+  product        Product  @relation(fields: [productId], references: [id])
+  orderType      String   @map("order_type") @db.VarChar(16) // "subscription" | "consultation"
+  quantity       Int      @default(1)
+  quality        String   @default("standard") @db.VarChar(16)
+  turnaround     String   @default("standard") @db.VarChar(16)
+  totalPrice     Int      @map("total_price") // in smallest currency unit (pence)
+  currency       String   @default("GBP") @db.VarChar(8)
+  deliveryDays   Int      @map("delivery_days")
+  customerName   String   @map("customer_name") @db.VarChar(120)
+  customerEmail  String   @map("customer_email") @db.VarChar(255)
+  customerPhone  String   @map("customer_phone") @db.VarChar(30)
+  stripeSessionId String? @unique @map("stripe_session_id")
+  status         String   @default("pending") @db.VarChar(24) // pending | paid | cancelled
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
+
+  transaction Transaction?
+
+  @@index([customerEmail])
+  @@map("orders")
+}
+
+// ── Transactions (tracked order pipeline) ─────────────────
+
+model Transaction {
+  id            String   @id @db.VarChar(32) // e.g. TXN-1710700000-A1B2C3
+  orderId       String   @unique @map("order_id") @db.VarChar(32)
+  order         Order    @relation(fields: [orderId], references: [id])
+  bookedAt      DateTime @default(now()) @map("booked_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
+
+  stages ConsultancyStage[]
+
+  @@index([id, orderId])
+  @@map("transactions")
+}
+
+model ConsultancyStage {
+  id            String    @id @default(cuid())
+  transactionId String    @map("transaction_id") @db.VarChar(32)
+  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  stageKey      String    @map("stage_key") @db.VarChar(32) // booking, discovery, strategy, etc.
+  title         String    @db.VarChar(120)
+  description   String
+  status        String    @default("upcoming") @db.VarChar(16) // completed | in-progress | upcoming
+  completedAt   DateTime? @map("completed_at")
+  estimatedDate DateTime? @map("estimated_date")
+  details       String[]
+  deliverables  String[]
+  assignedTo    String?   @map("assigned_to") @db.VarChar(120)
+  sortOrder     Int       @default(0) @map("sort_order")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@index([transactionId])
+  @@map("consultancy_stages")
+}
+
+// ── Contact Submissions ───────────────────────────────────
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(100)
+  email     String   @db.VarChar(255)
+  phone     String?  @db.VarChar(30)
+  subject   String   @db.VarChar(200)
+  message   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([email])
+  @@map("contact_submissions")
+}
+
+// ── Charity Projects (free-tier, capped at N active) ──────
+
+model CharityProject {
+  id               String   @id @default(cuid())
+  charityName      String   @map("charity_name") @db.VarChar(200)
+  charityNumber    String?  @map("charity_number") @db.VarChar(30)  // UK charity reg number
+  contactName      String   @map("contact_name") @db.VarChar(120)
+  contactEmail     String   @map("contact_email") @db.VarChar(255)
+  contactPhone     String?  @map("contact_phone") @db.VarChar(30)
+  website          String?  @db.VarChar(300)
+  description      String                                            // what the charity does
+  status           String   @default("applied") @db.VarChar(24)      // applied | accepted | in-progress | completed | rejected
+  // Deliverable flags
+  needsLogo        Boolean  @default(true) @map("needs_logo")
+  needsColours     Boolean  @default(true) @map("needs_colours")
+  needsWebsite     Boolean  @default(true) @map("needs_website")
+  needsDonations   Boolean  @default(true) @map("needs_donations")
+  needsPayments    Boolean  @default(false) @map("needs_payments")
+  // Extra
+  notes            String?
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @default(now()) @updatedAt @map("updated_at")
+
+  tasks CharityTask[]
+
+  @@index([status])
+  @@index([contactEmail])
+  @@map("charity_projects")
+}
+
+model CharityTask {
+  id            String    @id @default(cuid())
+  projectId     String    @map("project_id")
+  project       CharityProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskKey       String    @map("task_key") @db.VarChar(32)        // logo | colours | website | donations | payments | review | handover
+  title         String    @db.VarChar(150)
+  description   String
+  status        String    @default("upcoming") @db.VarChar(16)     // upcoming | in-progress | completed
+  completedAt   DateTime? @map("completed_at")
+  estimatedDate DateTime? @map("estimated_date")
+  deliverables  String[]
+  assignedTo    String?   @map("assigned_to") @db.VarChar(120)
+  sortOrder     Int       @default(0) @map("sort_order")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@index([projectId])
+  @@map("charity_tasks")
+}
+
+// ── Blog ──────────────────────────────────────────────────
+
+model BlogPost {
+  id            String   @id @default(cuid())
+  slug          String   @unique @db.VarChar(200)
+  title         String   @db.VarChar(300)
+  excerpt       String
+  content       String?  // full body (future use)
+  category      String   @db.VarChar(64)
+  authorName    String   @map("author_name") @db.VarChar(120)
+  authorAvatar  String   @map("author_avatar") @db.VarChar(64) // CSS class
+  readTime      String   @map("read_time") @db.VarChar(16)
+  coverGradient String   @map("cover_gradient") @db.VarChar(255)
+  coverIcon     String   @map("cover_icon") @db.VarChar(16) // emoji
+  featured      Boolean  @default(false)
+  publishedAt   DateTime @default(now()) @map("published_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([category])
+  @@map("blog_posts")
+}

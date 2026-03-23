@@ -1,0 +1,13 @@
+node_modules
+.next
+.turbo
+dist
+.git
+*.log
+.env*
+apps/web/.next
+apps/web/node_modules
+apps/portal/.next
+apps/portal/node_modules
+apps/worker/node_modules
+packages/*/node_modules
