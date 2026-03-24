@@ -28,8 +28,10 @@ COPY apps/portal/                apps/portal/
 RUN apt-get update -qq && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
 RUN pnpm --filter @repo/db run build
 
-# Build the Next.js portal app
-RUN pnpm --filter tenuq-portal run build
+# Build the Next.js portal app (DATABASE_URL needed for Prisma at build time)
+RUN --mount=type=secret,id=DATABASE_URL \
+    DATABASE_URL="$(cat /run/secrets/DATABASE_URL)" \
+    pnpm --filter tenuq-portal run build
 
 # ── Stage 4: runner ──────────────────────────────────────
 FROM node:22-slim AS runner
