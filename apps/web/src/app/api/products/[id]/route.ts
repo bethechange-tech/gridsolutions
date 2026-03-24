@@ -17,5 +17,10 @@ export async function GET(
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
   }
 
-  return NextResponse.json(product);
+  // Convert pence (DB storage) → pounds for the frontend
+  return NextResponse.json({
+    ...product,
+    basePrice: product.basePrice / 100,
+    consultationPrice: product.consultationPrice / 100,
+  });
 }

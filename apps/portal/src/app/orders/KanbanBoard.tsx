@@ -312,9 +312,9 @@ export default function KanbanBoard({ transactions, ordersWithoutTxn, rev, conta
                 <h2 className="text-sm font-semibold text-gray-900 truncate">
                   {activeTxn.order.customerName}
                 </h2>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xs text-gray-400 font-mono truncate">{activeTxn.id}</span>
-                  <span className="text-gray-300">·</span>
+                <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                  <span className="text-xs text-gray-400 font-mono truncate max-w-[120px] sm:max-w-none">{activeTxn.id}</span>
+                  <span className="text-gray-300 hidden sm:inline">·</span>
                   <span className="text-xs text-gray-500">{activeTxn.order.product.name}</span>
                   <span className="text-gray-300">·</span>
                   <span className="text-xs font-semibold text-gray-700">{fmtGBP(activeTxn.order.totalPrice)}</span>
@@ -489,25 +489,25 @@ export default function KanbanBoard({ transactions, ordersWithoutTxn, rev, conta
       <>
         <div className="fixed inset-0 z-50 bg-gray-50 flex flex-col">
           {/* Top bar */}
-          <div className="h-14 bg-white border-b border-gray-200/80 flex items-center justify-between px-6 shrink-0 shadow-sm">
-            <div className="flex items-center gap-3">
-              <span className="w-8 h-8 bg-[#1a8d1a] rounded-xl flex items-center justify-center shadow-sm">
+          <div className="h-auto sm:h-14 bg-white border-b border-gray-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 sm:px-6 py-2 sm:py-0 shrink-0 shadow-sm gap-1 sm:gap-0">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="w-8 h-8 bg-[#1a8d1a] rounded-xl flex items-center justify-center shadow-sm shrink-0">
                 <svg width="14" height="14" viewBox="0 0 40 44" fill="none">
                   <path d="M5 4 L33 2 L35 31 L7 33 Z" stroke="white" strokeWidth="2.5" strokeLinejoin="round" fill="none" />
                   <line x1="19" y1="3" x2="21" y2="32" stroke="white" strokeWidth="2" />
                   <line x1="6" y1="18" x2="34" y2="16" stroke="white" strokeWidth="2" />
                 </svg>
               </span>
-              <div>
-                <h1 className="text-sm font-semibold text-gray-900 leading-tight">
+              <div className="min-w-0">
+                <h1 className="text-sm font-semibold text-gray-900 leading-tight truncate">
                   {activeTxn.order.customerName}
                 </h1>
-                <p className="text-[11px] text-gray-400 leading-tight">
+                <p className="text-[11px] text-gray-400 leading-tight truncate">
                   {activeTxn.order.product.name} · {fmtGBP(activeTxn.order.totalPrice)} · {activeTxn.stages.filter((s) => s.status === "completed").length}/{activeTxn.stages.length} stages
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
               <span className={`text-[10px] px-2 py-1 rounded-full font-semibold ${
                 activeTxn.order.status === "paid" ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
                   : activeTxn.order.status === "pending" ? "bg-amber-50 text-amber-600 border border-amber-100"
@@ -525,13 +525,13 @@ export default function KanbanBoard({ transactions, ordersWithoutTxn, rev, conta
                   <line x1="14" y1="10" x2="21" y2="3" />
                   <line x1="3" y1="21" x2="10" y2="14" />
                 </svg>
-                Exit
-                <kbd className="ml-1 text-[10px] text-gray-400 bg-gray-100 px-1 py-0.5 rounded">Esc</kbd>
+                <span className="hidden sm:inline">Exit</span>
+                <kbd className="ml-1 text-[10px] text-gray-400 bg-gray-100 px-1 py-0.5 rounded hidden sm:inline">Esc</kbd>
               </button>
             </div>
           </div>
           {/* Board fills remaining space */}
-          <div className="flex-1 p-4 overflow-hidden flex">
+          <div className="flex-1 p-3 sm:p-4 overflow-hidden flex">
             {boardContent}
           </div>
         </div>

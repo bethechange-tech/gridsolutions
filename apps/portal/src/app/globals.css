@@ -27,3 +27,37 @@ body {
   background: #c4c4c4;
   border-radius: 999px;
 }
+
+/*
+  Portal post-detail overrides:
+  In the portal the nav sidebar consumes 260px, so the PostDetailView's
+  article ↔ aside split (normally at lg / 1024px) is pushed to xl / 1280px
+  to avoid a cramped two-column layout between 1024–1279 px.
+*/
+.portal-post-detail .lg\:flex-row  { flex-direction: column; }
+.portal-post-detail .lg\:w-\[260px\] { width: 100%; }
+.portal-post-detail .hidden.lg\:block { display: none; }
+.portal-post-detail .grid.lg\:hidden  { display: grid; }
+.portal-post-detail .lg\:sticky       { position: static; }
+.portal-post-detail .lg\:overflow-x-visible { overflow-x: auto; }
+.portal-post-detail .lg\:pb-0   { padding-bottom: 0.5rem; }
+.portal-post-detail .lg\:snap-none { scroll-snap-type: x mandatory; }
+.portal-post-detail .lg\:w-auto { width: 200px; }
+.portal-post-detail .lg\:flex-col { flex-direction: row; }
+
+@media (min-width: 640px) {
+  .portal-post-detail .lg\:w-auto { width: 220px; }
+}
+
+@media (min-width: 1280px) {
+  .portal-post-detail .lg\:flex-row  { flex-direction: row; }
+  .portal-post-detail .lg\:w-\[260px\] { width: 260px; }
+  .portal-post-detail .hidden.lg\:block { display: block; }
+  .portal-post-detail .grid.lg\:hidden  { display: none; }
+  .portal-post-detail .lg\:sticky       { position: sticky; }
+  .portal-post-detail .lg\:overflow-x-visible { overflow-x: visible; }
+  .portal-post-detail .lg\:pb-0   { padding-bottom: 0; }
+  .portal-post-detail .lg\:snap-none { scroll-snap-type: none; }
+  .portal-post-detail .lg\:w-auto { width: auto; }
+  .portal-post-detail .lg\:flex-col { flex-direction: column; }
+}

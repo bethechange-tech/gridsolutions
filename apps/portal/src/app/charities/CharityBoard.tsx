@@ -247,24 +247,24 @@ export default function CharityBoard({ projects, stats }: Props) {
     return (
       <>
         <div className="fixed inset-0 z-50 bg-gray-50 flex flex-col">
-          <div className="h-14 bg-white border-b border-gray-200/80 flex items-center justify-between px-6 shrink-0 shadow-sm">
-            <div className="flex items-center gap-3">
-              <span className="w-8 h-8 bg-purple-600 rounded-xl flex items-center justify-center text-white text-xs font-bold">
+          <div className="h-auto sm:h-14 bg-white border-b border-gray-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 sm:px-6 py-2 sm:py-0 shrink-0 shadow-sm gap-1 sm:gap-0">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="w-8 h-8 bg-purple-600 rounded-xl flex items-center justify-center text-white text-xs font-bold shrink-0">
                 {activeProject.charityName.slice(0, 2).toUpperCase()}
               </span>
-              <div>
-                <h1 className="text-sm font-semibold text-gray-900 leading-tight">{activeProject.charityName}</h1>
-                <p className="text-[11px] text-gray-400 leading-tight">
+              <div className="min-w-0">
+                <h1 className="text-sm font-semibold text-gray-900 leading-tight truncate">{activeProject.charityName}</h1>
+                <p className="text-[11px] text-gray-400 leading-tight truncate">
                   {activeProject.contactName} · {localTasks.filter((t) => t.status === "completed").length}/{localTasks.length} tasks
                 </p>
               </div>
             </div>
-            <button onClick={() => setExpanded(false)} className="text-xs px-3 py-1.5 border border-gray-200 text-gray-600 font-medium rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-1.5">
+            <button onClick={() => setExpanded(false)} className="text-xs px-3 py-1.5 border border-gray-200 text-gray-600 font-medium rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-1.5 self-end sm:self-center">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="4 14 10 14 10 20" /><polyline points="20 10 14 10 14 4" /><line x1="14" y1="10" x2="21" y2="3" /><line x1="3" y1="21" x2="10" y2="14" /></svg>
-              Exit <kbd className="ml-1 text-[10px] text-gray-400 bg-gray-100 px-1 py-0.5 rounded">Esc</kbd>
+              <span className="hidden sm:inline">Exit</span> <kbd className="ml-1 text-[10px] text-gray-400 bg-gray-100 px-1 py-0.5 rounded hidden sm:inline">Esc</kbd>
             </button>
           </div>
-          <div className="flex-1 p-4 overflow-hidden flex">{boardContent}</div>
+          <div className="flex-1 p-3 sm:p-4 overflow-hidden flex">{boardContent}</div>
         </div>
       </>
     );
@@ -433,8 +433,8 @@ export default function CharityBoard({ projects, stats }: Props) {
                       <h2 className="text-base font-semibold text-gray-900 truncate">{activeProject.charityName}</h2>
                       <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                         <span className="text-xs text-gray-500">{activeProject.contactName}</span>
-                        <span className="text-gray-300">·</span>
-                        <span className="text-xs text-gray-400">{activeProject.contactEmail}</span>
+                        <span className="text-gray-300 hidden sm:inline">·</span>
+                        <span className="text-xs text-gray-400 truncate">{activeProject.contactEmail}</span>
                         {activeProject.charityNumber && (
                           <>
                             <span className="text-gray-300">·</span>

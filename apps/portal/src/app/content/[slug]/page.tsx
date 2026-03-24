@@ -24,7 +24,11 @@ export default async function PostDetailPage({
   return (
     <>
       <TopBar title="Post Details" />
-      <div className="p-4 sm:p-6">
+      {/*
+        portal-post-detail: overrides PostDetailView's lg → xl breakpoints
+        because the portal sidebar already consumes 260px at lg widths.
+      */}
+      <div className="p-4 sm:p-6 portal-post-detail">
         <PostDetailView
           post={post}
           recentPosts={recentPosts}

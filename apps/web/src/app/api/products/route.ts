@@ -15,5 +15,12 @@ export async function GET(req: NextRequest) {
     orderBy: { createdAt: "asc" },
   });
 
-  return NextResponse.json(data);
+  // Convert pence (DB storage) → pounds for the frontend
+  const products = data.map((p) => ({
+    ...p,
+    basePrice: p.basePrice / 100,
+    consultationPrice: p.consultationPrice / 100,
+  }));
+
+  return NextResponse.json(products);
 }

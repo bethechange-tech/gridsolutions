@@ -27,8 +27,8 @@ const products = [
     description:
       "A focused 90-minute technical strategy session — stack advice, architecture direction, and next steps.",
     category: "consulting",
-    basePrice: 999, // £9.99 in pence
-    consultationPrice: 12000, // £120.00
+    basePrice: 29900, // £299.00 in pence
+    consultationPrice: 4900, // £49.00
     currency: "GBP",
     billingCycle: "mo",
     features: ["90-min deep-dive", "Written recommendations", "Follow-up call"],
@@ -41,8 +41,8 @@ const products = [
     description:
       "Comprehensive codebase review covering quality, security, and scalability — with a clear action plan.",
     category: "consulting",
-    basePrice: 1999,
-    consultationPrice: 18000,
+    basePrice: 59900, // £599.00
+    consultationPrice: 9900, // £99.00
     currency: "GBP",
     billingCycle: "mo",
     features: ["Full repo audit", "Security review", "Prioritised roadmap"],
@@ -55,8 +55,8 @@ const products = [
     description:
       "Part-time senior technical leadership — hiring, architecture, and engineering culture on tap.",
     category: "consulting",
-    basePrice: 3999,
-    consultationPrice: 25000,
+    basePrice: 299900, // £2,999.00
+    consultationPrice: 14900, // £149.00
     currency: "GBP",
     billingCycle: "mo",
     features: ["Weekly syncs", "Hiring support", "Vendor evaluation"],
@@ -69,8 +69,8 @@ const products = [
     description:
       "Logo, colour system, typography, and a brand guidelines document — everything you need to look the part.",
     category: "branding",
-    basePrice: 2999,
-    consultationPrice: 20000,
+    basePrice: 149900, // £1,499.00
+    consultationPrice: 7900, // £79.00
     currency: "GBP",
     billingCycle: "mo",
     features: ["Logo design", "Colour & type system", "Brand guidelines PDF"],
@@ -83,8 +83,8 @@ const products = [
     description:
       "A high-performance Next.js marketing site — designed to convert visitors into customers.",
     category: "branding",
-    basePrice: 2499,
-    consultationPrice: 18000,
+    basePrice: 99900, // £999.00
+    consultationPrice: 6900, // £69.00
     currency: "GBP",
     billingCycle: "mo",
     features: ["Custom design", "Mobile responsive", "SEO optimised"],
@@ -97,8 +97,8 @@ const products = [
     description:
       "Monthly design and content support so your brand evolves as your business grows.",
     category: "branding",
-    basePrice: 1499,
-    consultationPrice: 10000,
+    basePrice: 49900, // £499.00
+    consultationPrice: 4900, // £49.00
     currency: "GBP",
     billingCycle: "mo",
     features: [
@@ -272,7 +272,7 @@ const transactions: SeedTransaction[] = [
     customerName: "James Carter",
     phone: "+44 7700 900123",
     productId: "strategy-session",
-    totalPaid: 15000, // £150 in pence
+    totalPaid: 25000, // £250 in pence
     bookedAt: "2026-02-28T10:30:00Z",
     stages: [
       {
@@ -410,7 +410,7 @@ const transactions: SeedTransaction[] = [
     customerName: "Olivia Bennett",
     phone: "+44 7911 123456",
     productId: "code-audit",
-    totalPaid: 20000,
+    totalPaid: 50000, // £500 in pence
     bookedAt: "2026-03-01T09:15:00Z",
     stages: [
       {
@@ -531,7 +531,7 @@ const transactions: SeedTransaction[] = [
     customerName: "Demo User",
     phone: "+44 7000 000000",
     productId: "strategy-session",
-    totalPaid: 12000,
+    totalPaid: 29900, // £299 in pence
     bookedAt: "2026-03-10T15:45:00Z",
     stages: [
       {

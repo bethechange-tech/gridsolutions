@@ -18,15 +18,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
   }
 
+  // Convert pence (DB storage) → pounds for pricing computation
+  const basePriceGBP = product.basePrice / 100;
+  const consultPriceGBP = product.consultationPrice / 100;
+
   // One-off consultation — flat price
   if (config.orderType === "consultation") {
     const turnaround = TURNAROUND_OPTIONS.find((t) => t.key === config.turnaround)!;
     const summary: PricingSummary = {
-      baseTotal: product.consultationPrice,
+      baseTotal: consultPriceGBP,
       qualityMultiplier: 1,
       turnaroundSurcharge: 0,
       deliveryDays: turnaround.deliveryDays,
-      totalPrice: product.consultationPrice,
+      totalPrice: consultPriceGBP,
       currency: product.currency,
     };
     return NextResponse.json(summary);
@@ -36,7 +40,7 @@ export async function POST(req: NextRequest) {
   const qualityTier = QUALITY_TIERS.find((t) => t.key === config.quality)!;
   const turnaround = TURNAROUND_OPTIONS.find((t) => t.key === config.turnaround)!;
 
-  const baseTotal = product.basePrice * config.quantity;
+  const baseTotal = basePriceGBP * config.quantity;
   const afterQuality = baseTotal * qualityTier.multiplier;
   const surcharge = afterQuality * (turnaround.surchargePercent / 100);
   const totalPrice = Math.round((afterQuality + surcharge) * 100) / 100;
